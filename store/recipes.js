@@ -1,4 +1,5 @@
 import axios from 'axios'
+import ingridients from '~/api/db/ingridients'
 
 export const CREATED = 'recipe.created'
 export const GET = 'recipe.get'
@@ -7,6 +8,18 @@ export const GET = 'recipe.get'
 export const state = function () {
     return {
       recipes: []
+      /*recipes: [{
+        recipe: {
+          id: 2,
+          name: null,
+          season: null,
+          preptime: null,
+          rating: null,
+          ingredients: [
+            {ingredient: null}
+          ]
+        }
+      }]*/
     }
   }
 
@@ -19,7 +32,7 @@ export const mutations = {
 //     if (index !== -1) state.lists.splice(index, 1)
 //   },
   set (state, recipes) {
-    state.recipes = recipes
+    state.recipes = [...recipes]
   },
 //   rename (state, id, name) {
 //     const index = state.lists.findIndex(list => list.id === id)
@@ -102,9 +115,12 @@ export const actions = {
         url: '/api/recipe',
         method: 'GET'
   }).then(function (response) {
-    console.log('response is : ' + JSON.stringify(response.data, null, 2));
-      if (res.status === 200) {
-        commit('set', JSON.stringify(response.data.recipes))
+    console.log('response is : ', JSON.stringify(response.data, null, 2));
+      if (response.status === 200) {
+        console.log("entered code to set recipe data")
+        let recipes = response.data
+        console.log('inside 200 status block, response is : ', recipes)
+        commit('set', recipes)
         return {
           message: {
             type: 'success',

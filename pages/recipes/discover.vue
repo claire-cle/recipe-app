@@ -9,7 +9,7 @@
                 <v-col
                   v-for="card in cards"
                   :key="card.recipeId"
-                  :cols="card.flex"
+                  :cols=4
                 >
                 <recipe-card @bookmark='console.log($event)' 
                   v-bind:name="card.name"
@@ -44,25 +44,14 @@ export default {
     data () {
       this.$store.dispatch('recipes/get')
       return {
-        cards: {
-          id: '',
-          name: '',
-          season: '',
-          rating: '',
-          preptime: '',
-          ingridients: [
-            {
-            ingredient: ""
-            }
-          ], 
-          flex: 4
-        },
+        cards: this.$store.state.recipes.recipes,
         // modalIsVisible: false
         alignments: [
           'start',
           'center',
           'end',
         ],
+        random: this.$store.state
       }
     
     // cards: [
@@ -83,6 +72,12 @@ export default {
       return this.$store.state.recipes
     }
   },
+
+  filters: {
+    pretty: function(value) {
+      return JSON.stringify(value) 
+    }
+  }
 };
 </script>
 

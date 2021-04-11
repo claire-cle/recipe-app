@@ -9,7 +9,7 @@ export default function (conn: PoolClient) {
         const connection = dbFactory(conn)
         let results = await connection.recipes.getAll()
         res.status(200)
-        res.send(results.rows[0])
+        res.send(results.rows)
       },
 
     async getRecipe (req: express.Request, res: express.Response) {
