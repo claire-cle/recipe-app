@@ -19,6 +19,9 @@
                         <v-icon>mdi-pencil</v-icon>
                     <!-- </v-btn> -->
                     </nuxt-link>
+                    <v-btn class="tag" @click="deleteRecipe()" icon>
+                        <v-icon>mdi-trash-can-outline</v-icon>
+                    </v-btn>
                 </v-col>
                 <v-col>
                     <v-img
@@ -64,6 +67,15 @@ export default {
         return this.$store.state.recipes.recipes.find(el => el.id === this.id);
     }
 }),
+methods: {
+        deleteRecipe () {
+            console.log( "Inside vue page, delete function, data is: ", this.$route.params.id)
+            const result = this.$store.dispatch('recipes/remove', this.$route.params.id)
+            // this.$notify(result.message)
+            // if (result[DELETED]) this.$router.push('/discover')
+            if (result) this.$router.push('/recipes/discover')
+        }
+},
 
 //     data: () => ({
 //         id: this.$route.params.id,
