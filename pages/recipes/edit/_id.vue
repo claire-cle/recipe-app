@@ -10,14 +10,13 @@
         >
 
         <v-text-field
-        :value="recipeName" 
-        @input="updateRecipeName"
+         v-model="recipeName" 
         label="Recipe name"
         required
         ></v-text-field>
         
         Estimated Preparation Time:
-        <v-select label="Select Time" outlined v-model="findrecipe.preptime" :item="items">
+        <v-select label="Select Time" outlined v-model="recipeTime" :item="items">
             <!-- <option disabled value="">Time</option>
             <option>5 Min</option>
             <option>10 Min</option>
@@ -50,7 +49,7 @@
           class="input wrapper flex items-center"
         >
           <input 
-               v-model="input.ingredient"
+               v-model="recipeIngredients"
                type="text" 
                class="h-10 rounded-lg outline-none p-2" 
                placeholder=" Enter Ingredient"     
@@ -181,13 +180,50 @@ export default {
             findrecipe (state) {
                 return this.$store.state.recipes.recipes.find(el => el.id === this.id);
             }, 
-            recipeName (state, findrecipe) {
-                // const recipe = "claire"
-                recipe = this.$store.getters.recipeById
-                console.log(recipe)
-                return recipe.name
-            }
+            
         }),
+        recipeName: {
+                // const recipe = "claire"
+                // const index = this.$store.state.recipes.recipes.findIndex(recipe => recipe.id === id)
+                // recipe = this.$store.getters.recipeById
+                // console.log(recipe)
+                // return recipe.name
+                get () {
+                // return this.$store.state.obj.message
+                let specificRecipe = this.$store.state.recipes.recipes.find(recipe => recipe.id === this.id)
+                console.log("specificRecipe is: ", specificRecipe.name)
+                return specificRecipe.name
+                },
+                set (value) {
+                let id = this.id
+                let state = this.$store.state
+                this.$store.commit('recipes/updateName', {value, id})
+                }
+            },
+        recipeTime: {
+                get () {
+                let specificRecipe = this.$store.state.recipes.recipes.find(recipe => recipe.id === this.id)
+                console.log("specificRecipe is: ", specificRecipe.preptime)
+                return specificRecipe.preptime
+                },
+                set (value) {
+                let id = this.id
+                let state = this.$store.state
+                this.$store.commit('recipes/updateTime', {value, id})
+                }
+            },
+        recipeIngredients: {
+                get () {
+                let specificRecipe = this.$store.state.recipes.recipes.find(recipe => recipe.id === this.id)
+                console.log("specificRecipe is: ", specificRecipe.ingridients)
+                return specificRecipe.ingredients
+                },
+                set (value) {
+                let id = this.id
+                let state = this.$store.state
+                this.$store.commit('recipes/updateIngredients', {value, id})
+                }
+            }
         // ...mapState({
             // recipeName (state) {
             //     // let recipe = this.$store.state.recipes.recipes.find(el => el.id === this.id)
@@ -242,9 +278,9 @@ export default {
             //type.splice(index, 1);
             fieldType.splice(index, 1);
         },
-        updateRecipeName (e) {
-            this.$store.commit('updateRecipeName', e.target.value)
-        }
+        // updateRecipeName (e) {
+        //     this.$store.commit('updateRecipeName', e.target.value)
+        // }
         
     },
     data () { 

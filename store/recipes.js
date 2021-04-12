@@ -41,12 +41,34 @@ export const mutations = {
   set (state, recipes) {
     state.recipes = [...recipes]
   },
-  update (state, id, name, preptime, ingredients) {
-    const index = state.recipes.recipes.findIndex(recipe => recipe.id === id)
+  updateName (state, {value, id}) {
+    // console.log("data in updateName mutation is: ", id, "and ", value)
+    // console.log("data #2 in updateName mutation is: ", state, "and", value, "and ", id)
+    // console.log(value.state.accounts.token)
+    // console.log("value.id = ", value.id)
+    const index = state.recipes.findIndex(recipe => recipe.id === id)
+    console.log("index: ", index)
     if (index !== -1){
-      state.recipes[index].name = name
-      state.recipes[index].preptime = preptime
-      state.recipes[index].ingredients = ingredients
+      // console.log("recipe name:", state.state.recipes.recipes[index].name) //undefined
+      // console.log("trying to access store state:", $store.state.recipes.recipes[index].name)
+      // console.log("new name (value name):", value.value)
+      state.recipes[index].name = value
+      // state.recipes[index].preptime = preptime
+      // state.recipes[index].ingredients = ingredients
+    }
+  },
+  updateTime (state, {value, id}) {
+    const index = state.recipes.findIndex(recipe => recipe.id === id)
+    console.log("index: ", index)
+    if (index !== -1){
+      state.recipes[index].preptime = value
+    } 
+  },
+  updateIngredients (state, {value, id}) {
+    const index = state.recipes.findIndex(recipe => recipe.id === id)
+    console.log("index: ", index)
+    if (index !== -1){
+      state.recipes[index].ingredients = value
     } 
   },
   delete (state, {id}) {
@@ -80,9 +102,9 @@ export const actions = {
           }
         }).then(function (response){
           console.log('response is : ' + response.data);
-        if (respose.status === 201) {
+        if (response.status === 201) {
         // res = await axios.get(res.headers.Location)
-        if (respose.status === 200) {
+        if (response.status === 200) {
           commit('add', res.data)
           return {
             message: {
@@ -172,8 +194,8 @@ export const actions = {
   },
 
   //update recipe
-  async update ({ commit, dispatch }, {id, name, preptime, ingridients}) {
-    console.log("Inside add function, data is:", id, name, preptime, ingridients)
+  async updateName ({ commit, dispatch }, {id, name}) {
+    console.log("Inside add function, data is:", id, name)
     let res = await axios
       ({
         headers: {
@@ -183,49 +205,37 @@ export const actions = {
         method: 'PUT',
         data: {
           name: name,
-          preptime: preptime,
-          season: "winter",
-          rating: 5,
+          // preptime: preptime,
+          // season: "winter",
+          // rating: 5,
           // ingridients: [
           //   {ingredient: "cheese"}
           // ]
-          ingridients: ingridients
+          // ingridients: ingridients
         }
       }).then(function (response){
         console.log('response is : ' + response.data);
-      if (respose.status === 201) {
       // res = await axios.get(res.headers.Location)
-      if (respose.status === 200) {
-        commit('add', res.data)
+      if (response.status === 204) {
+        commit('updateName', res.data)
         return {
           message: {
             type: 'success',
-            title: 'Recipe Created',
-            message: 'The recipe "' + name + '" was created.'
+            title: 'Recipe Updated',
+            message: 'The recipe "' + name + '" was updated.'
           },
-          [CREATED]: true,
-          [GET]: true
+          [UPDATED]: true,
+          // [GET]: true
         }
       } else {
-        return {
-          message: {
-            type: 'success',
-            title: 'Recipe Created',
-            message: 'The recipe "' + name + '" was created.'
-          },
-          [CREATED]: true,
-          [GET]: false
-        }
-      }
-    } else {
       return {
         message: {
           type: 'error',
-          title: 'Recipe Not Created',
-          message: 'Unable to create recipe "' + name + '".'
+          title: 'Recipe Not Updated',
+          message: 'Unable to update recipe "' + name + '".'
         },
-        [CREATED]: false,
-        [GET]: false
+        [UPDATED]: false,
+        // [GET]: false
       }
     } //last else
   }).catch(error => {
