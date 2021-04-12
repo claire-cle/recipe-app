@@ -1,5 +1,7 @@
 <template>
-  <NuxtLink class="tag" to="/recipes/readRecipe">
+  <!-- <NuxtLink class="tag" to="'/recipes/' + card.id"> -->
+  <!-- {{id}} -->
+  <!-- <nuxt-link :to="'lists/' + list.id">{{list.name}}</nuxt-link> -->
     <v-card>
                     <v-img
                       :src="src"
@@ -29,12 +31,12 @@
                 </v-btn> -->
 
                 <!-- TODO add logic so that the pencil only shows up if it's the user's recipe -->
-                <v-btn class="tag" to="/recipes/editRecipe" icon>
+                <!-- <v-btn class="tag" to="/recipes/editRecipe" icon>
                   <v-icon>mdi-pencil</v-icon>
-                </v-btn>
+                </v-btn> -->
               </v-card-actions>
             </v-card>
-    </NuxtLink>
+    <!-- </NuxtLink> -->
 </template>
 
 <script>

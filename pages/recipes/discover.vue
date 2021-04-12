@@ -11,12 +11,21 @@
                   :key="card.recipeId"
                   :cols=4
                 >
+                <!-- {{card.id}} -->
+                <btn>
+                  
+                  <!-- <div v-for="list in taskLists" :key="list.id" class="task-list"> -->
+      <!-- <nuxt-link :to="'lists/' + list.id">{{list.name}}</nuxt-link> -->
+    <!-- </div> -->
+                  <NuxtLink class="tag" :to="`${card.id}`">
                 <recipe-card @bookmark='console.log($event)' 
                   v-bind:name="card.name"
                   v-bind:user="card.user"
                   v-bind:prepTime="card.prepTime"
                   v-bind:flex=4
                   ></recipe-card>
+                    </NuxtLink>
+                  </btn>
           </v-col>
         </v-row>
       </v-container>
