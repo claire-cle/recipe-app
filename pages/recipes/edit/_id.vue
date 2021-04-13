@@ -10,13 +10,13 @@
         >
 
         <v-text-field
-         v-model="recipeName" 
+         v-model="form.name" 
         label="Recipe name"
         required
         ></v-text-field>
         
         Estimated Preparation Time:
-        <v-select label="Select Time" outlined v-model="recipeTime" :item="items">
+        <v-select label="Select Time" outlined v-model="form.prepTime" :item="items">
             <!-- <option disabled value="">Time</option>
             <option>5 Min</option>
             <option>10 Min</option>
@@ -43,13 +43,19 @@
         </v-col> -->
 
         <label class="text-gray-600 font-semibold text-lg">Ingredients</label>
+        
         <div
-          v-for="(input, index) in findrecipe.ingridients"
+          v-for="(input, index) in form.ingridients"
           :key="`ingredientInput-${index}`"
           class="input wrapper flex items-center"
         >
+        <!-- <div
+          v-for="(input, index) in recipeIngredients"
+          :key="`ingredientInput-${index}`"
+          class="input wrapper flex items-center"
+        > -->
           <input 
-               v-model="recipeIngredients"
+               v-model="input.ingredient"
                type="text" 
                class="h-10 rounded-lg outline-none p-2" 
                placeholder=" Enter Ingredient"     
@@ -165,7 +171,10 @@
 <script>
 import AppNavigation from '@/components/AppNavigation';
 import { mapState } from "vuex";
-import { mapActions } from 'vuex';
+// import { mapActions } from 'vuex';
+// import axios from 'axios';
+// import { mapFields } from 'vuex-map-fields';
+// import { mapMultiRowFields } from 'vuex-map-fields';
 
 export default {
 
@@ -182,48 +191,48 @@ export default {
             }, 
             
         }),
-        recipeName: {
-                // const recipe = "claire"
-                // const index = this.$store.state.recipes.recipes.findIndex(recipe => recipe.id === id)
-                // recipe = this.$store.getters.recipeById
-                // console.log(recipe)
-                // return recipe.name
-                get () {
-                // return this.$store.state.obj.message
-                let specificRecipe = this.$store.state.recipes.recipes.find(recipe => recipe.id === this.id)
-                console.log("specificRecipe is: ", specificRecipe.name)
-                return specificRecipe.name
-                },
-                set (value) {
-                let id = this.id
-                let state = this.$store.state
-                this.$store.commit('recipes/updateName', {value, id})
-                }
-            },
-        recipeTime: {
-                get () {
-                let specificRecipe = this.$store.state.recipes.recipes.find(recipe => recipe.id === this.id)
-                console.log("specificRecipe is: ", specificRecipe.preptime)
-                return specificRecipe.preptime
-                },
-                set (value) {
-                let id = this.id
-                let state = this.$store.state
-                this.$store.commit('recipes/updateTime', {value, id})
-                }
-            },
-        recipeIngredients: {
-                get () {
-                let specificRecipe = this.$store.state.recipes.recipes.find(recipe => recipe.id === this.id)
-                console.log("specificRecipe is: ", specificRecipe.ingridients)
-                return specificRecipe.ingredients
-                },
-                set (value) {
-                let id = this.id
-                let state = this.$store.state
-                this.$store.commit('recipes/updateIngredients', {value, id})
-                }
-            }
+        // recipeName: {
+        //         // const recipe = "claire"
+        //         // const index = this.$store.state.recipes.recipes.findIndex(recipe => recipe.id === id)
+        //         // recipe = this.$store.getters.recipeById
+        //         // console.log(recipe)
+        //         // return recipe.name
+        //         get () {
+        //         // return this.$store.state.obj.message
+        //         let specificRecipe = this.$store.state.recipes.recipes.find(recipe => recipe.id === this.id)
+        //         console.log("specificRecipe is: ", specificRecipe.name)
+        //         return specificRecipe.name
+        //         },
+        //         set (value) {
+        //         let id = this.id
+        //         let state = this.$store.state
+        //         this.$store.commit('recipes/updateName', {value, id})
+        //         }
+        //     },
+        // recipeTime: {
+        //         get () {
+        //         let specificRecipe = this.$store.state.recipes.recipes.find(recipe => recipe.id === this.id)
+        //         console.log("specificRecipe is: ", specificRecipe.preptime)
+        //         return specificRecipe.preptime
+        //         },
+        //         set (value) {
+        //         let id = this.id
+        //         let state = this.$store.state
+        //         this.$store.commit('recipes/updateTime', {value, id})
+        //         }
+        //     },
+        // recipeIngredients: {
+        //         get () {
+        //         let specificRecipe = this.$store.state.recipes.recipes.find(recipe => recipe.id === this.id)
+        //         console.log("specificRecipe is: ", specificRecipe.ingridients)
+        //         return specificRecipe.ingredients
+        //         },
+        //         set (value) {
+        //         let id = this.id
+        //         let state = this.$store.state
+        //         this.$store.commit('recipes/updateIngredients', {value, id})
+        //         }
+        //     },
         // ...mapState({
             // recipeName (state) {
             //     // let recipe = this.$store.state.recipes.recipes.find(el => el.id === this.id)
@@ -240,6 +249,23 @@ export default {
     //     this.$store.commit('update', value)
     //     }
     // }
+    //     ingredients () {
+    //   return this.$store.state.recipes.recipes
+    // }
+        // ingredients () {
+        //     return this.$store.state.recipes.recipes[this.$route.params.id].ingredients
+        // },
+        // When using nested data structures, the string
+        // after the last dot (e.g. `firstName`) is used
+        // for defining the name of the computed property.
+        // ...mapFields([
+        // 'recipes.name',
+        // 'recipes.preptime',
+        // It's also possible to access
+        // nested properties in arrays.
+        // 'addresses[0].town',
+        // ]),
+        // ...mapMultiRowFields(['recipes[0].ingredients']),
     },
 
     name: 'App',
@@ -284,22 +310,38 @@ export default {
         
     },
     data () { 
+        // console.log( "recipe: ", recipe)
+        
+        // this.$store.state.recipes.recipes
+        // if (dataOne) {
+        //     console.log("data one is: ", dataOne)
+        //     let ingredients = dataOne.ingridients
+        //     let copiedIngredients = Object.assign({}, ingredients)
+        //     // var copiedUser = Object.assign({}, user); 
+        // }
+        this.$store.dispatch('recipes/getRecipe', this.$route.params.id)
+        // singleRecipe
+        let stateRecipe = this.$store.state.recipes.singleRecipe[0]
+        console.log("State Recipe in data is: ", stateRecipe)
+        // const cloneFood = JSON.parse(JSON.stringify(food));
+        let copyOfState = JSON.parse(JSON.stringify(stateRecipe))
+        console.log("Copy of State Recipe in data is: ", copyOfState)
         return {
             id: this.$route.params.id,
             items: ['5 min', '10 min', '15 min', '20 min', '25 min', '30 min', '35 min', '40 min', '45 min', '50 min', '55 min', '1 hr'],
             form: {
-                name: "",
-                prepTime: "",
+                name: copyOfState.name,
+                prepTime: copyOfState.preptime,
                 ingridients: [
-                    {ingredient: ''},
+                    {ingredient: copyOfState.ingredient},
                 ],
                 steps: [
-                    {step: ''},
+                    {step: ""},
                 ]
             },
             
         }
-    }
+    },
 }
 
 </script>

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { getField, updateField } from 'vuex-map-fields';
 // import ingridients from '~/api/db/ingridients'
 
 export const CREATED = 'recipe.created'
@@ -7,19 +8,21 @@ export const DELETED = 'recipe.delete'
 
 export const state = function () {
     return {
-      recipes: []
-      /*recipes: [{
-        recipe: {
-          id: 2,
-          name: null,
-          season: null,
-          preptime: null,
-          rating: null,
-          ingredients: [
-            {ingredient: null}
-          ]
-        }
-      }]*/
+      recipes: [],
+      // recipes: [
+      //   {
+          singleRecipe: {
+            // id: "",
+            // name: "",
+            // season: "",
+            // preptime: null,
+            // rating: "",
+            // ingredients: [
+            //   {ingredient: ""}
+            // ]
+          }
+      //   }
+      // ]
     }
   }
 
@@ -28,9 +31,11 @@ export const getters = {
     // recipeById (state, id) {
     //   return state.recipes.recipes.filter(id = id)
     // }
+    getField,
 }
 
 export const mutations = {
+  updateField,
   add (state, { id, name, preptime, rating, ingredients }) {
     state.recipes.push({ id, name, preptime, rating, ingredients })
   },
@@ -40,6 +45,9 @@ export const mutations = {
 //   },
   set (state, recipes) {
     state.recipes = [...recipes]
+  },
+  setSingle (state, recipes) {
+    state.singleRecipe = [...recipes]
   },
   updateName (state, {value, id}) {
     // console.log("data in updateName mutation is: ", id, "and ", value)
@@ -156,7 +164,7 @@ export const actions = {
   }).then(function (response) {
     console.log('response is : ', JSON.stringify(response.data, null, 2));
       if (response.status === 200) {
-        console.log("entered code to set recipe data")
+        console.log("entered code to set recipe data in get block")
         let recipes = response.data
         console.log('inside 200 status block, response is : ', recipes)
         commit('set', recipes)
@@ -192,6 +200,57 @@ export const actions = {
     console.log(error.response)
   });
   },
+
+    // retrieve one recipe by id
+    async getRecipe ({ commit, dispatch }, id) {
+      // if (this.state.accounts.token) {
+        console.log("entered get one recipe action in recipes.js")
+        let res = await axios
+          ({
+            headers: {
+              Authorization: 'Bearer '+this.state.accounts.token
+          },
+          url: '/api/recipe/' + id,
+          method: 'GET'
+    }).then(function (response) {
+      console.log('response is : ', JSON.stringify(response.data, null, 2));
+        if (response.status === 200) {
+          console.log("entered code to set recipe data in getRecipe")
+          let recipes = response.data
+          console.log('inside 200 status block, response is : ', recipes)
+          commit('setSingle', recipes)
+          return {
+            message: {
+              type: 'success',
+              title: 'Recipes Retrieved',
+              message: 'Recipes successfully retrieved.'
+            },
+            [GET]: true
+          }
+        } else {
+          return {
+            message: {
+              type: 'error',
+              title: 'Unable to Get Recipes',
+              message: 'The recipes could not be loaded. Error: ' + res.statusCode
+            },
+            [GET]: false
+          }
+        }
+      // } else {
+      //   return {
+      //     message: {
+      //       type: 'error',
+      //       title: 'Unable to Get Recipes',
+      //       message: 'You must be authenticated to retrieve recipes.'
+      //     },
+      //     [GET]: false
+      //   }
+      // }
+    }).catch(error => {
+      console.log(error.response)
+    });
+    },
 
   //update recipe
   async updateName ({ commit, dispatch }, {id, name}) {

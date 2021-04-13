@@ -15,9 +15,9 @@ export default function (conn: PoolClient) {
     async getRecipe (req: express.Request, res: express.Response) {
       let recipeId = req.enforcer!.params.recipeId
       const connection = dbFactory(conn)
-      await connection.recipes.getRecipe(recipeId)
+      let result = await connection.recipes.getRecipe(recipeId)
       res.status(200)
-      res.send('Success')
+      res.send(result.rows)
     },
 
     async addRecipe (req: express.Request, res: express.Response) {

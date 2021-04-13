@@ -52,8 +52,9 @@ export default {
     // data: () => ({
     data () {
       this.$store.dispatch('recipes/get')
+      
       return {
-        cards: this.$store.state.recipes.recipes,
+        // cards: this.$store.state.recipes.recipes,
         // modalIsVisible: false
         alignments: [
           'start',
@@ -79,6 +80,9 @@ export default {
   computed: {
     recipes () {
       return this.$store.state.recipes
+    },
+    cards () {
+      return this.$store.state.recipes.recipes
     }
   },
 

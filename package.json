@@ -22,7 +22,8 @@
     "openapi-enforcer": "^1.13.3",
     "openapi-enforcer-middleware": "^2.0.0-alpha-11",
     "pg": "^8.5.1",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "vuex-map-fields": "^1.4.1"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^2.1.0",
