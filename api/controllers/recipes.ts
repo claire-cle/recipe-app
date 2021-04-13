@@ -20,14 +20,24 @@ export default function (conn: PoolClient) {
       res.send('Success')
     },
 
+    async getUserRecipes (req: express.Request, res: express.Response) {
+      let username = req.enforcer!.params.username
+      const connection = dbFactory(conn)
+      await connection.recipes.getUserRecipes(username)
+      res.status(200)
+      res.send('Success')
+    },
+
+
     async addRecipe (req: express.Request, res: express.Response) {
       let name = req.body.name
       let season = req.body.season
       let rating = req.body.rating
       let preptime = req.body.preptime
       let ingridients = req.body.ingridients
+      let steps = req.body.steps
       const connection = dbFactory(conn)
-      await connection.recipes.addRecipe(name, season, rating, preptime, ingridients)
+      await connection.recipes.addRecipe(name, season, rating, preptime, ingridients, steps)
       res.status(201)
       res.send('Success adding a recipe')
     },
