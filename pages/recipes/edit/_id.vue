@@ -16,7 +16,8 @@
         ></v-text-field>
         
         Estimated Preparation Time:
-        <v-select label="Select Time" outlined v-model="form.prepTime" :item="items">
+        <v-select label="Select Time" outlined v-model="form.prepTime" :hint="`${form.prepTime.name}, ${form.prepTime.value}`" :items="items" item-text="name" item-value="value" return-object
+            single-line>
             <!-- <option disabled value="">Time</option>
             <option>5 Min</option>
             <option>10 Min</option>
@@ -155,11 +156,11 @@
         >
         Upload from Computer
         </v-btn>
-
+        <!-- {{this.$route.params.id}} -->
         <v-btn
         color="success"
         class="mr-4"
-        @click="updateRecipe(this.$route.params.id)"
+        @click="updateRecipe()"
         >
         Save Edits
         </v-btn>
@@ -278,8 +279,9 @@ export default {
         // this.$set(this.name, findrecipe.id, findrecipe.name);
         // },
         updateRecipe () {
-          const { id, name, prepTime, ingridients } = this.findrecipe
-            const success = this.$store.dispatch('recipes/update', {
+          const { id, name, prepTime, ingridients } = this.form
+          console.log("id is: ", id)
+            const success = this.$store.dispatch('recipes/updateRecipe', {
                 id,
                 name,
                 prepTime,
@@ -328,13 +330,25 @@ export default {
         console.log("Copy of State Recipe in data is: ", copyOfState)
         return {
             id: this.$route.params.id,
-            items: ['5 min', '10 min', '15 min', '20 min', '25 min', '30 min', '35 min', '40 min', '45 min', '50 min', '55 min', '1 hr'],
+            items: [
+                { name: '5 min', value: 5},
+                { name: '10 min', value: 10},
+                { name: '15 min', value: 15},
+                { name: '20 min', value: 20},
+                { name: '25 min', value: 25},
+                { name: '30 min', value: 30},
+                { name: '35 min', value: 35},
+                { name: '40 min', value: 40},
+                { name: '45 min', value:45},
+                { name: '50 min', value: 50},
+                { name: '55 min', value: 55},
+                { name: '1 hr', value: 60}
+            ],
             form: {
+                id: copyOfState.id,
                 name: copyOfState.name,
                 prepTime: copyOfState.preptime,
-                ingridients: [
-                    {ingredient: copyOfState.ingredient},
-                ],
+                ingridients: copyOfState.ingridients,
                 steps: [
                     {step: ""},
                 ]

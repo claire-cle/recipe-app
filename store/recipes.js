@@ -49,7 +49,7 @@ export const mutations = {
   setSingle (state, recipes) {
     state.singleRecipe = [...recipes]
   },
-  updateName (state, {value, id}) {
+  update (state, { id, name, preptime, season, rating, ingredients }) {
     // console.log("data in updateName mutation is: ", id, "and ", value)
     // console.log("data #2 in updateName mutation is: ", state, "and", value, "and ", id)
     // console.log(value.state.accounts.token)
@@ -60,9 +60,11 @@ export const mutations = {
       // console.log("recipe name:", state.state.recipes.recipes[index].name) //undefined
       // console.log("trying to access store state:", $store.state.recipes.recipes[index].name)
       // console.log("new name (value name):", value.value)
-      state.recipes[index].name = value
-      // state.recipes[index].preptime = preptime
-      // state.recipes[index].ingredients = ingredients
+      state.recipes[index].name = name
+      state.recipes[index].preptime = preptime
+      state.recipes[index].ingredients = ingredients
+      // state.recipes[index].season = season
+      // state.recipes[index].rating = rating
     }
   },
   updateTime (state, {value, id}) {
@@ -90,7 +92,7 @@ export const mutations = {
 export const actions = {
     // create and retrieve a task list
     async add ({ commit, dispatch }, {name, prepTime, ingridients}) {
-      console.log("Inside add function, data is:", name, prepTime, ingridients)
+      console.log("Inside add function, data is:", name, prepTime, prepTime.name, prepTime.value, ingridients)
       let res = await axios
         ({
           headers: {
@@ -106,7 +108,7 @@ export const actions = {
             // ingridients: [
             //   {ingredient: "cheese"}
             // ]
-            ingridients
+            ingridients: ingridients
           }
         }).then(function (response){
           console.log('response is : ' + response.data);
@@ -253,8 +255,8 @@ export const actions = {
     },
 
   //update recipe
-  async updateName ({ commit, dispatch }, {id, name}) {
-    console.log("Inside add function, data is:", id, name)
+  async updateRecipe ({ commit }, {id, name, prepTime, ingridients}) {
+    console.log("Inside updateRecipe function, data is:", id, name, prepTime, ingridients)
     let res = await axios
       ({
         headers: {
@@ -264,19 +266,20 @@ export const actions = {
         method: 'PUT',
         data: {
           name: name,
-          // preptime: preptime,
-          // season: "winter",
-          // rating: 5,
+          preptime: prepTime,
+          season: "winters",
+          rating: 6,
           // ingridients: [
-          //   {ingredient: "cheese"}
+          //   {ingredient: "cheesees"}
           // ]
-          // ingridients: ingridients
+          ingridients: ingridients
         }
       }).then(function (response){
-        console.log('response is : ' + response.data);
+        console.log('response data in updateRecipe is : ' + response.data);
+        console.log('response status in updateRecipe is : ' + response.status);
       // res = await axios.get(res.headers.Location)
       if (response.status === 204) {
-        commit('updateName', res.data)
+        commit('update', {id, name, prepTime, ingridients})
         return {
           message: {
             type: 'success',

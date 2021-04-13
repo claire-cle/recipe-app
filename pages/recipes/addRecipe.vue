@@ -16,7 +16,8 @@
         ></v-text-field>
         
         Estimated Preparation Time:
-        <v-select label="Select Time" outlined v-model="form.prepTime" :items="items">
+        <v-select label="Select Time" outlined v-model="form.prepTime" :hint="`${form.prepTime.name}, ${form.prepTime.value}`" :items="items" item-text="name" item-value="value" return-object
+            single-line>
             <!-- <option disabled value="">Time</option>
             <option>5 Min</option>
             <option>10 Min</option>
@@ -173,6 +174,7 @@ export default {
     methods: {
         createRecipe () {
           const { name, prepTime, ingridients } = this.form
+            console.log("inside createrecipe function on addrecipe page: ", prepTime, prepTime.name, prepTime.value)
             const success = this.$store.dispatch('recipes/add', {
               name,
               prepTime,
@@ -201,10 +203,24 @@ export default {
     },
     data () { 
         return {
-            items: ['5 min', '10 min', '15 min', '20 min', '25 min', '30 min', '35 min', '40 min', '45 min', '50 min', '55 min', '1 hr'],
+            // items: ['5 min', '10 min', '15 min', '20 min', '25 min', '30 min', '35 min', '40 min', '45 min', '50 min', '55 min', '1 hr'],
+            items: [
+                { name: '5 min', value: 5},
+                { name: '10 min', value: 10},
+                { name: '15 min', value: 15},
+                { name: '20 min', value: 20},
+                { name: '25 min', value: 25},
+                { name: '30 min', value: 30},
+                { name: '35 min', value: 35},
+                { name: '40 min', value: 40},
+                { name: '45 min', value:45},
+                { name: '50 min', value: 50},
+                { name: '55 min', value: 55},
+                { name: '1 hr', value: 60}
+            ],
             form: {
                 name: "",
-                prepTime: "",
+                prepTime: { name: '', value: null},
                 ingridients: [
                     {ingredient: ''},
                 ],

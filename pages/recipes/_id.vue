@@ -9,7 +9,7 @@
                     <h1> {{findrecipe.name}}
                     </h1>
                     <h2>
-                        Estimated Preparation Time: {{findrecipe.preptime}}
+                        Estimated Preparation Time: {{findrecipe.preptime.value}}
                     </h2>
                     <h2>
                         Added by: {{user}}
