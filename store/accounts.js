@@ -6,6 +6,7 @@ export const AUTHENTICATED = 'accounts.authenticated'
 export const CREATED = 'accounts.created'
 
 export const state = function () {
+  debugger
   let data = getCookie('recipe-account')
   if (data) data = JSON.parse(decodeURIComponent(data))
   return {
@@ -16,6 +17,8 @@ export const state = function () {
 
 export const mutations = {
   setAccount (state, { token, username }) {
+    debugger
+    console.log("in set account, before:", username)
     state.token = token
     state.username = username
 
