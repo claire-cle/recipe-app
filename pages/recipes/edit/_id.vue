@@ -8,7 +8,6 @@
         ref="form"
         lazy-validation
         >
-
         <v-text-field
          v-model="form.name" 
         label="Recipe name"

@@ -51,7 +51,7 @@ export default {
     },
     // data: () => ({
     data () {
-      this.$store.dispatch('recipes/get')
+      this.$store.dispatch('recipes/getAll')
       
       return {
         // cards: this.$store.state.recipes.recipes,

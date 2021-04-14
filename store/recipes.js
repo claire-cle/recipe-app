@@ -117,7 +117,7 @@ export const actions = {
         if (response.status === 201) {
         // res = await axios.get(res.headers.Location)
         if (response.status === 200) {
-          commit('add', res.data)
+          // commit('add', res.data)
           return {
             message: {
               type: 'success',
@@ -155,7 +155,7 @@ export const actions = {
     }, //.then
 
     // retrieve all recipes
-  async get ({ commit }) {
+  async getAll ({ commit }) {
     // if (this.state.accounts.token) {
       console.log("entered get action in recipes.js")
       let res = await axios

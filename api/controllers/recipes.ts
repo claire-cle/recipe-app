@@ -9,6 +9,7 @@ export default function (conn: PoolClient) {
         const connection = dbFactory(conn)
         let results = await connection.recipes.getAll()
         res.status(200)
+        console.log(results.rows)
         res.send(results.rows)
       },
 
@@ -22,9 +23,11 @@ export default function (conn: PoolClient) {
 
     async getUserRecipes (req: express.Request, res: express.Response) {
       let username = req.enforcer!.params.username
+      console.log(username)
       const connection = dbFactory(conn)
       let result = await connection.recipes.getUserRecipes(username)
       res.status(200)
+      console.log(result.rows)
       res.send(result.rows)
     },
 

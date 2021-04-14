@@ -36,7 +36,7 @@ export const actions = {
     // const res = await axios.post('http://localhost:3001/login', {
       const res = await axios({
         method: 'POST',
-        url: 'api/login',
+        url: '/api/login',
         auth: {
           username,
           password
