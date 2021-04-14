@@ -191,6 +191,28 @@ paths:
                 $ref: '#/components/schemas/recipeList'
         400:
           description: bad input parameter
+  
+  /recipe/get/{username}:
+    parameters:
+       - $ref: '#/components/parameters/PathUsername'
+
+    get:
+      summary: get specific recipes
+      tags:
+        - Recipes
+      security:
+        - Bearer: []
+      x-controller: recipes
+      x-operation: getUserRecipes
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recipe'
+        '400':
+          description: bad input parameter  
       
   /recipe/{recipeId}:
     parameters:

@@ -173,12 +173,15 @@ export default {
     },
     methods: {
         createRecipe () {
-          const { name, prepTime, ingridients } = this.form
-            console.log("inside createrecipe function on addrecipe page: ", prepTime, prepTime.name, prepTime.value)
-            const success = this.$store.dispatch('recipes/add', {
+          const { name, prepTime, ingridients, steps } = this.form
+          const username = this.$store.state.accounts.user
+            // console.log("inside createrecipe function on addrecipe page: ", prepTime, prepTime.name, prepTime.value)
+            const success = this.$store.dispatch('recipes/addRecipe', {
               name,
               prepTime,
-              ingridients
+              ingridients,
+              steps,
+              username
             })
             if (success) {
                     // this.$notify({
@@ -186,7 +189,7 @@ export default {
                     // title: 'Success',
                     // message: 'Account created.'
                     // })
-                    this.$router.push('/recipes/discover')
+                    this.$router.push('/recipes/myRecipe')
                 }
         },
         deleteIngredient(counter){

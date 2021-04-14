@@ -36,8 +36,8 @@ export const getters = {
 
 export const mutations = {
   updateField,
-  add (state, { id, name, preptime, rating, ingredients }) {
-    state.recipes.push({ id, name, preptime, rating, ingredients })
+  add (state, { id, name, preptime, rating, ingredients, steps }) {
+    state.recipes.push({ id, name, preptime, rating, ingredients, steps })
   },
 //   remove (state, id) {
 //     const index = state.lists.findIndex(list => list.id === id)
@@ -91,8 +91,8 @@ export const mutations = {
 
 export const actions = {
     // create and retrieve a task list
-    async add ({ commit, dispatch }, {name, prepTime, ingridients}) {
-      console.log("Inside add function, data is:", name, prepTime, prepTime.name, prepTime.value, ingridients)
+    async addRecipe ({ commit, dispatch }, {username, name, prepTime, ingridients, steps}) {
+      console.log("Inside add function, data is:", username, name, prepTime, prepTime.name, prepTime.value, ingridients, steps)
       let res = await axios
         ({
           headers: {
@@ -101,6 +101,7 @@ export const actions = {
           url: '/api/recipe',
           method: 'POST',
           data: {
+            username: username,
             name: name,
             preptime: prepTime,
             season: "winter",
@@ -108,7 +109,8 @@ export const actions = {
             // ingridients: [
             //   {ingredient: "cheese"}
             // ]
-            ingridients: ingridients
+            ingridients: ingridients,
+            steps: steps
           }
         }).then(function (response){
           console.log('response is : ' + response.data);
@@ -202,6 +204,57 @@ export const actions = {
     console.log(error.response)
   });
   },
+
+    // retrieve all recipes
+    async getUserRecipes ({ commit }, username) {
+      // if (this.state.accounts.token) {
+        console.log("entered get user recipes action in recipes.js")
+        let res = await axios
+          ({
+            headers: {
+              Authorization: 'Bearer '+this.state.accounts.token
+          },
+          url: '/api/recipe/get/' +username,
+          method: 'GET'
+    }).then(function (response) {
+      console.log('response is : ', JSON.stringify(response.data, null, 2));
+        if (response.status === 200) {
+          console.log("entered code to set recipe data in get block")
+          let recipes = response.data
+          console.log('inside 200 status block, response is : ', recipes)
+          commit('set', recipes)
+          return {
+            message: {
+              type: 'success',
+              title: 'Recipes Retrieved',
+              message: 'Recipes successfully retrieved.'
+            },
+            [GET]: true
+          }
+        } else {
+          return {
+            message: {
+              type: 'error',
+              title: 'Unable to Get Recipes',
+              message: 'The recipes could not be loaded. Error: ' + res.statusCode
+            },
+            [GET]: false
+          }
+        }
+      // } else {
+      //   return {
+      //     message: {
+      //       type: 'error',
+      //       title: 'Unable to Get Recipes',
+      //       message: 'You must be authenticated to retrieve recipes.'
+      //     },
+      //     [GET]: false
+      //   }
+      // }
+    }).catch(error => {
+      console.log(error.response)
+    });
+    },
 
     // retrieve one recipe by id
     async getRecipe ({ commit, dispatch }, id) {

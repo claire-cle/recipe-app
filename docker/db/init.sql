@@ -10,9 +10,11 @@ CREATE TABLE "accounts" (
 CREATE TABLE "recipes" (
   "id" character(37) NOT NULL,
   "name" character varying(40) NOT NULL,
+  "username" character varying(40) NOT NULL,
   "season" character varying(40) NOT NULL,
   "rating" integer  NOT NULL,
   "ingridients" json NOT NULL,
+  "steps" json NOT NULL,
   "images" character varying(40) NOT NULL,
   PRIMARY KEY ("id")
 );
