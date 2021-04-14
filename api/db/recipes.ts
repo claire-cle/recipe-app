@@ -53,16 +53,17 @@ export default  function (conn: PoolClient) {
 
             })
         },
-        async updateRecipe (recepeId: string, name: string, season:string, rating:number, preptime: any, ingridients: any) {
+        async updateRecipe (recepeId: string, name: string, season:string, rating:number, preptime: any, ingridients: any, steps: any) {
             return conn.query({
-                text: 'UPDATE recipes  SET name = $2, season = $3, rating = $4, preptime = $5, ingridients = $6 where id = $1',
+                text: 'UPDATE recipes  SET name = $2, season = $3, rating = $4, preptime = $5, ingridients = $6, steps = $7 where id = $1',
                 values: [
                     recepeId,
                     name,
                     season,
                     rating,
                     preptime,
-                    JSON.stringify(ingridients)
+                    JSON.stringify(ingridients),
+                    JSON.stringify(steps)
                 ]
 
             })

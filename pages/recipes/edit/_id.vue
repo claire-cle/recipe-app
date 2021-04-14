@@ -279,13 +279,14 @@ export default {
         // this.$set(this.name, findrecipe.id, findrecipe.name);
         // },
         updateRecipe () {
-          const { id, name, prepTime, ingridients } = this.form
+          const { id, name, prepTime, ingridients, steps } = this.form
           console.log("id is: ", id)
             const success = this.$store.dispatch('recipes/updateRecipe', {
                 id,
                 name,
                 prepTime,
-                ingridients
+                ingridients,
+                steps
             })
             if (success) {
                     // this.$notify({
@@ -349,9 +350,7 @@ export default {
                 name: copyOfState.name,
                 prepTime: copyOfState.preptime,
                 ingridients: copyOfState.ingridients,
-                steps: [
-                    {step: ""},
-                ]
+                steps: copyOfState.steps
             },
             
         }

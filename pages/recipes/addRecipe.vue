@@ -174,7 +174,7 @@ export default {
     methods: {
         createRecipe () {
           const { name, prepTime, ingridients, steps } = this.form
-          const username = this.$store.state.accounts.user
+          const username = this.$store.state.accounts.username
             // console.log("inside createrecipe function on addrecipe page: ", prepTime, prepTime.name, prepTime.value)
             const success = this.$store.dispatch('recipes/addRecipe', {
               name,

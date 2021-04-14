@@ -17,12 +17,12 @@
 
             <v-container fluid>
               <v-row dense>
-                <v-col
+                <!-- <v-col
                   v-for="card in cards"
                   :key="card.title"
                   :cols="card.flex"
-                >
-                <recipe-card @bookmark='console.log($event)' title="strawberry icecream"></recipe-card>
+                > -->
+                <!-- <recipe-card @bookmark='console.log($event)' title="strawberry icecream"></recipe-card> -->
                   <!-- <v-card>
                     <v-img
                       :src="card.src"
@@ -51,7 +51,7 @@
                 </v-btn>
               </v-card-actions> -->
             <!-- </v-card> -->
-          </v-col>
+          <!-- </v-col> -->
         </v-row>
       </v-container>
               <!-- <v-card

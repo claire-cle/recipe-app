@@ -20,9 +20,9 @@
                   <NuxtLink class="tag" :to="`${card.id}`">
                 <recipe-card @bookmark='console.log($event)' 
                   v-bind:name="card.name"
-                  v-bind:user="card.user"
-                  v-bind:prepTime="card.prepTime"
+                  v-bind:prepTime="card.preptime.name"
                   v-bind:flex=4
+                  v-bind:username="card.username"
                   ></recipe-card>
                     </NuxtLink>
                   </btn>

@@ -12,7 +12,7 @@
                         Estimated Preparation Time: {{findrecipe.preptime.value}}
                     </h2>
                     <h2>
-                        Added by: {{user}}
+                        Added by: {{findrecipe.username}}
                     </h2>
                     <nuxt-link class=tag :to="'edit/' + `${this.$route.params.id}`" icon>
                     <!-- <v-btn class="tag" to="/recipes/editRecipe" icon> -->
@@ -44,9 +44,9 @@
             <h3>
                 Steps:
             </h3>
-            <!-- <ul>
-                <li v-for="item in steps" v-bind:key="item.step">{{ item.step }}</li>
-            </ul> -->
+            <ul>
+                <li v-for="item in findrecipe.steps" v-bind:key="item.step">{{ item.step }}</li>
+            </ul>
             </v-col>
             </v-row>
         </v-container>

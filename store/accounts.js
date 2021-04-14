@@ -10,7 +10,7 @@ export const state = function () {
   if (data) data = JSON.parse(decodeURIComponent(data))
   return {
     token: data ? data.token : '',
-    user: data ? data.username : ''
+    username: data ? data.username : ''
   }
 }
 
@@ -176,7 +176,7 @@ export const actions = {
   },
 
   logout ({ commit }) {
-    commit('setAccount', { token: '' })
+    commit('setAccount', { token: '', username: '' })
   },
 
   update ({ commit }, id, name) {

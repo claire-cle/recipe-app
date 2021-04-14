@@ -56,8 +56,9 @@ export default function (conn: PoolClient) {
       let rating = req.body.rating
       let preptime = req.body.preptime
       let ingridients = req.body.ingridients
+      let steps = req.body.steps
       const connection = dbFactory(conn)
-      await connection.recipes.updateRecipe(recipeId, name, season, rating, preptime, ingridients)
+      await connection.recipes.updateRecipe(recipeId, name, season, rating, preptime, ingridients, steps)
       res.status(204)
       res.send("Success updating")
     }

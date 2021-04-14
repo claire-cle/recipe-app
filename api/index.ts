@@ -70,7 +70,7 @@ app.post('/login', async (req, res) => {
         process.exit(1)
       } else {
         if(r.rowCount == 1) {
-          const newToken = jwt.sign({user: username}, secret)
+          const newToken = jwt.sign({username: username}, secret)
           return res.send(newToken)
         }
         return res.status(400).send({

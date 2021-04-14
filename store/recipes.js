@@ -36,8 +36,8 @@ export const getters = {
 
 export const mutations = {
   updateField,
-  add (state, { id, name, preptime, rating, ingredients, steps }) {
-    state.recipes.push({ id, name, preptime, rating, ingredients, steps })
+  add (state, { id, username, name, preptime, rating, ingredients, steps }) {
+    state.recipes.push({ id, username, name, preptime, rating, ingredients, steps })
   },
 //   remove (state, id) {
 //     const index = state.lists.findIndex(list => list.id === id)
@@ -208,7 +208,7 @@ export const actions = {
     // retrieve all recipes
     async getUserRecipes ({ commit }, username) {
       // if (this.state.accounts.token) {
-        console.log("entered get user recipes action in recipes.js")
+        console.log("entered get user recipes action in recipes.js", username)
         let res = await axios
           ({
             headers: {
@@ -308,8 +308,8 @@ export const actions = {
     },
 
   //update recipe
-  async updateRecipe ({ commit }, {id, name, prepTime, ingridients}) {
-    console.log("Inside updateRecipe function, data is:", id, name, prepTime, ingridients)
+  async updateRecipe ({ commit }, {id, name, prepTime, ingridients, steps}) {
+    console.log("Inside updateRecipe function, data is:", id, name, prepTime, ingridients, steps)
     let res = await axios
       ({
         headers: {
@@ -325,7 +325,8 @@ export const actions = {
           // ingridients: [
           //   {ingredient: "cheesees"}
           // ]
-          ingridients: ingridients
+          ingridients: ingridients,
+          steps: steps
         }
       }).then(function (response){
         console.log('response data in updateRecipe is : ' + response.data);

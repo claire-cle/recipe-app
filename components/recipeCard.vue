@@ -12,7 +12,7 @@
                 <v-card-title v-text="name"></v-card-title>
               </v-img>
               Added by: 
-              <v-card-text v-text="user"></v-card-text>
+              <v-card-text v-text="username"></v-card-text>
               <v-card-text v-text="prepTime"></v-card-text>
   
               <v-card-actions>
@@ -59,7 +59,7 @@ export default {
   // ]
   props: {
     name: "",
-    user: "",
+    username: "",
     prepTime: "",
     // flex: {
     //   default: 4
